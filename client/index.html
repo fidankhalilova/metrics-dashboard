@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script src="http://localhost:8097"></script>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var STORAGE_KEY = 'metrics-dashboard-state'
+          var raw = localStorage.getItem(STORAGE_KEY)
+          var mode = 'system'
+
+          if (raw) {
+            var parsed = JSON.parse(raw)
+            if (parsed && parsed.state && parsed.state.theme) {
+              mode = parsed.state.theme
+            }
+          }
+          var resolved = 
+          mode === 'system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : mode
+          document.documentElement.setAttribute('data-theme', resolved)
+          document.documentElement.setAttribute('data-theme-mode', mode)
+        } catch (e) {
+          console.error('Error setting theme preference', e)
+        }
+      }) ();
+    </script>
+    <title>Metrics Dashboard - Fidan Khalilova</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
